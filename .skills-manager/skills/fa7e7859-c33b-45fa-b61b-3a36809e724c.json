@@ -4,7 +4,9 @@
   "path": "pptx",
   "path_key": "pptx",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "文档制作"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "anthropics/skills/pptx",

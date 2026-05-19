@@ -5,7 +5,8 @@
   "path_key": "vue-expert",
   "enabled": true,
   "tags": [
-    "Vue生态"
+    "Vue生态",
+    "前端开发"
   ],
   "source": {
     "type": "skillssh",
