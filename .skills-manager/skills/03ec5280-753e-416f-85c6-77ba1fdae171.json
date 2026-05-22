@@ -4,9 +4,7 @@
   "path": "skywork-ppt",
   "path_key": "skywork-ppt",
   "enabled": true,
-  "tags": [
-    "文档制作"
-  ],
+  "tags": [],
   "source": {
     "type": "skillssh",
     "ref": "skyworkai/skywork-skills/skywork-ppt",

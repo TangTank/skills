@@ -6,8 +6,7 @@
   "enabled": true,
   "tags": [
     "PRD",
-    "产品经理",
-    "任务计划"
+    "产品经理"
   ],
   "source": {
     "type": "skillssh",
