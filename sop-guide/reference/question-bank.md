@@ -4,7 +4,6 @@
 
 ---
 
-<<<<<<< HEAD:sop-guide/reference/question-bank.md
 ## 阶段 0：公司信息确认
 
 ### Q0.0 公司信息确认（文件已存在时）
@@ -65,8 +64,6 @@
 
 ---
 
-=======
->>>>>>> origin/main:sop-guide/question-bank.md
 ## 批量模式问题
 
 ### QB.1 除了这个流程，还有哪些流程需要梳理？
