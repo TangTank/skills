@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "6a724c58-a2e6-4fcb-b142-1267df0fcfa9",
+  "path": "jackyun-2",
+  "path_key": "jackyun-2",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}
