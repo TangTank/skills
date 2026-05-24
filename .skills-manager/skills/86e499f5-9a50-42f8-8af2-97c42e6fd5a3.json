@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "86e499f5-9a50-42f8-8af2-97c42e6fd5a3",
+  "path": "unicloud",
+  "path_key": "unicloud",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}
