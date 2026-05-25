@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "509af906-6cab-434d-bd93-1b2b345d33c0",
+  "path": "markdown-flowchart-writer",
+  "path_key": "markdown-flowchart-writer",
+  "enabled": true,
+  "tags": [
+    "文档制作"
+  ],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}
