@@ -4,7 +4,9 @@
   "path": "pdf",
   "path_key": "pdf",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "文档制作"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "openai/skills/pdf",

@@ -6,6 +6,9 @@
 
 - [vk.callFunction 完整参数](#vkcallfunction-完整参数)
 - [vk.callFunction 调用方式](#vkcallfunction-调用方式)
+- [loading 参数详解](#loading-参数详解)
+- [加密通信 encrypt](#加密通信-encrypt)
+- [请求拦截器](#请求拦截器)
 - [uni.vk.importObject 云对象调用](#univkimportobject-云对象调用)
 - [API 封装规范](#api-封装规范)
 
@@ -21,14 +24,21 @@
 | `url` | String | **必填** | 云函数：文件路径（如 `client/order/kh/getList`）；云对象：文件名.方法名（如 `client/order.getList`） |
 | `data` | Object | `{}` | 请求参数 |
 | `title` | String | - | loading 遮罩层提示语（传值即显示 loading） |
-| `loading` | Boolean/Object | - | 自定义 loading 行为 |
+| `loading` | Boolean/Object | - | 自定义 loading 行为（见下方详解） |
+| `isRequest` | Boolean | `false` | 是否使用 url 化地址访问 |
 | `needAlert` | Boolean | `true` | 请求失败时是否自动弹窗提示 |
+| `env` | String | - | 请求多服务空间的环境 |
 | `timeout` | Number | - | 请求超时时间（毫秒） |
-| `retryCount` | Number | `0` | 系统异常自动重试次数 |
-| `encrypt` | Boolean | `false` | 是否加密通信 |
+| `retryCount` | Number | `0` | 系统异常自动重试次数（慎用于表单提交） |
+| `secretType` | String | `'none'` | uni 安全网络类型 |
+| `encrypt` | Boolean | `false` | vk 版双向加密通信 |
 | `success` | Function | - | 成功回调 |
 | `fail` | Function | - | 失败回调 |
 | `complete` | Function | - | 完成回调 |
+
+**注意事项：**
+- 表单提交必须加 `title` 或 `loading` 参数防止重复点击
+- 默认返回 `code` 不为 `0` 时自动弹窗 `err.msg`，写了 `fail` 回调则不自动弹窗
 
 ---
 
@@ -38,8 +48,7 @@
 
 ```js
 vk.callFunction({
-  url: 'client/order/kh/getList',   // 云函数模式
-  // url: 'client/order.getList',   // 云对象模式
+  url: 'client/order/kh/getList',
   title: '加载中...',
   data: { pageIndex: 1, pageSize: 10 },
   success: (data) => {
@@ -75,6 +84,72 @@ try {
 } catch (err) {
   console.log(err.msg);
 }
+```
+
+---
+
+## loading 参数详解
+
+- `false`：不显示遮罩层
+- `true`：请求时自动设置 `this.loading=true`
+- `{ that: this, name: "loading2" }`：请求时自动设置 `this.loading2=true`
+
+Vue3 setup 用法：
+```js
+const loading = reactive({ a: false });
+vk.callFunction({
+  url: 'xxx',
+  loading: { that: loading, name: 'a' },
+  data: {},
+  success: (data) => {},
+});
+```
+
+---
+
+## 加密通信 encrypt
+
+特点：全端支持（H5/APP/小程序）、防重放攻击（默认 10 秒过期）
+
+单独指定某个请求加密：
+```js
+vk.callFunction({
+  url: 'template/test/pub/testEncryptRequest',
+  encrypt: true,
+  data: { a: 1 },
+  success: (data) => {},
+});
+```
+
+配置方式（app.config.js）：
+```js
+checkEncryptRequest: {
+  mode: 1,
+  list: [
+    "^template/test/pub/testEncryptRequest$",
+    "^template/encrypt/(.*)",
+  ]
+},
+```
+
+---
+
+## 请求拦截器
+
+写在 `App.vue` 的 `onLaunch` 中：
+```js
+uniCloud.addInterceptor('callFunction', {
+  invoke: (res) => {
+    console.log('interceptor-invoke:', res);
+    res.data.data.a = 1; // 新增请求参数
+  },
+  success: (res) => {
+    console.log('interceptor-success', res);
+  },
+  fail: (err) => {
+    console.log('interceptor-fail', err);
+  },
+});
 ```
 
 ---
@@ -123,6 +198,8 @@ const orderObj = uni.vk.importObject('client/order', { name: 'router2' });
 // 开启加密通信
 const orderObj = uni.vk.importObject('client/order', { encrypt: true });
 ```
+
+**Vue3 App 模式注意：** 需延迟 `importObject` 调用（如 `setTimeout`），因为 App 模式下 vk 实例初始化较晚。
 
 ---
 

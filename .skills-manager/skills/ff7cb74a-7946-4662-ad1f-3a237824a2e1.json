@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "ff7cb74a-7946-4662-ad1f-3a237824a2e1",
+  "path": "vk-unicloud-client",
+  "path_key": "vk-unicloud-client",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}

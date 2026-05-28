@@ -206,7 +206,7 @@ let res = await vk.baseDao.select({
 **pageSize 特殊值：**
 - 默认最大 1000（云厂商限制）
 - 可设置 > 1000 突破限制（仅按 `_id` 排序时启用游标查询，性能最优）
-- 设置 `-1` 查询全部数据
+- 设置 `-1` 查询全部数据（慎用）
 
 ### vk.baseDao.selects - 连表分页查询
 
@@ -338,6 +338,50 @@ foreignDB: [{
 }]
 ```
 
+**一张主表多张副表：**
+```js
+foreignDB: [
+  {
+    dbName: 'order', localKey: '_id', foreignKey: 'user_id',
+    as: 'orderList', limit: 10,
+    sortArr: [{ name: 'time', type: 'desc' }],
+  },
+  {
+    dbName: 'vip', localKey: '_id', foreignKey: 'user_id',
+    as: 'vipInfo', limit: 1,
+  },
+]
+```
+
+**副表条件过滤（lastWhereJson）：**
+```js
+res = await vk.baseDao.selects({
+  dbName: 'opendb-mall-comments',
+  foreignDB: [{
+    dbName: 'uni-id-users', localKey: 'user_id', foreignKey: '_id',
+    as: 'userInfo', limit: 1,
+  }],
+  lastWhereJson: { 'userInfo.gender': 2 }, // 只要女性用户的评论
+});
+```
+
+**地理位置查询：**
+```js
+res = await vk.baseDao.selects({
+  dbName: 'vk-test',
+  whereJson: {
+    location: _.geoNear({
+      geometry: new db.Geo.Point(120.12792, 30.228932),
+      maxDistance: 4000,   // 最大距离(米)
+      minDistance: 0,
+      distanceMultiplier: 1, // 1=米 0.001=千米
+      distanceField: 'distance',
+    }),
+  },
+});
+// 写入地理位置：new db.Geo.Point(longitude, latitude)
+```
+
 ---
 
 ## 分组查询 groupJson
@@ -382,6 +426,16 @@ groupJson: {
   status: $.first('$status'),
   type: $.first('$type'),
   count: $.sum(1),
+}
+```
+
+### 简易分组语法
+
+```js
+groupJson: {
+  groupBy: ['user_id'],
+  groupNum: { totalMoney: '$money' },  // 汇总字段
+  groupNumRule: 'sum',                 // 聚合规则：sum/avg/count/max/min
 }
 ```
 
@@ -559,3 +613,29 @@ let res = await vk.baseDao.selects({
   fieldJson: { userInfo: false },  // 隐藏原副表字段
 });
 ```
+
+---
+
+## 数据库操作符速查
+
+通过 `_`（等价于 `db.command`）使用：
+
+| 操作符 | 说明 | 示例 |
+|--------|------|------|
+| _.eq | 等于 | `{ money: _.eq(100) }` |
+| _.neq | 不等于 | `{ money: _.neq(0) }` |
+| _.gt | 大于 | `{ money: _.gt(100) }` |
+| _.gte | 大于等于 | `{ money: _.gte(100) }` |
+| _.lt | 小于 | `{ money: _.lt(100) }` |
+| _.lte | 小于等于 | `{ money: _.lte(100) }` |
+| _.in | 在数组中 | `{ status: _.in([0, 1, 2]) }` |
+| _.nin | 不在数组中 | `{ status: _.nin([0]) }` |
+| _.exists | 字段存在 | `{ _id: _.exists(true) }` |
+| _.inc | 原子自增 | `{ money: _.inc(-100) }` |
+| _.set | 设置值 | `{ name: _.set('新名字') }` |
+| _.push | 数组追加 | `{ tags: _.push('new') }` |
+| _.pull | 数组删除 | `{ tags: _.pull('old') }` |
+| _.remove | 删除字段 | `{ field: _.remove() }` |
+| _.and | 与条件 | `_.and([{ a: 1 }, { b: 2 }])` |
+| _.or | 或条件 | `_.or([{ a: 1 }, { b: 2 }])` |
+| _.geoNear | 地理位置 | `{ location: _.geoNear({ geometry, maxDistance }) }` |

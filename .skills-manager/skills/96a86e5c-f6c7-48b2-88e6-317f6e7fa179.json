@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "96a86e5c-f6c7-48b2-88e6-317f6e7fa179",
+  "path": "create-wot-ui-theme",
+  "path_key": "create-wot-ui-theme",
+  "enabled": true,
+  "tags": [
+    "UniApp"
+  ],
+  "source": {
+    "type": "skillssh",
+    "ref": "wot-ui/open-wot/create-wot-ui-theme",
+    "subpath": "skills\\create-wot-ui-theme",
+    "branch": null
+  }
+}

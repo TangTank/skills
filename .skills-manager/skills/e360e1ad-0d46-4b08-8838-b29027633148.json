@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "e360e1ad-0d46-4b08-8838-b29027633148",
+  "path": "wot-ui-unocss-preset-guide",
+  "path_key": "wot-ui-unocss-preset-guide",
+  "enabled": true,
+  "tags": [
+    "UniApp"
+  ],
+  "source": {
+    "type": "skillssh",
+    "ref": "wot-ui/open-wot/wot-ui-unocss-preset-guide",
+    "subpath": "skills\\wot-ui-unocss-preset-guide",
+    "branch": null
+  }
+}

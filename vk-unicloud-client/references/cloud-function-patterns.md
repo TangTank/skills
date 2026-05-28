@@ -1,15 +1,17 @@
 # 云函数高级模式
 
-本文档涵盖 vk-unicloud-router 云函数路由模式的高级用法，包括完整 event 对象、过滤器详细配置、Dao 2.0 完整指南和公共工具函数。
+本文档涵盖 vk-unicloud-router 云函数路由模式的完整用法，包括 event 对象、模板、过滤器/中间件、Dao 2.0 和公共工具函数。
 
 > 云对象路由模式请参见 [cloud-object-patterns.md](cloud-object-patterns.md)
 
 ## 目录
 
 - [完整 event 对象](#完整-event-对象)
-- [云函数模板详解](#云函数模板详解)
-- [过滤器详细配置](#过滤器详细配置)
-- [Dao 2.0 完整指南](#dao-20-完整指南)
+- [云函数模板](#云函数模板)
+- [目录约定与权限](#目录约定与权限)
+- [过滤器/中间件](#过滤器中间件)（独立文档：[middleware.md](middleware.md)）
+- [Dao 2.0 数据访问层](#dao-20-数据访问层)
+- [云函数间调用](#云函数间调用)
 - [公共工具函数](#公共工具函数)
 
 ---
@@ -43,13 +45,22 @@ let { uid } = data;
 
 ### originalParam.context 常用属性
 
+| 属性 | 说明 |
+|------|------|
+| OS | 客户端系统：android/ios |
+| PLATFORM | 运行平台：mp-weixin/app-plus/h5 |
+| APPID | manifest.json 中的 appid |
+| CLIENTIP | 客户端 IP |
+| CLIENTUA | 客户端 User-Agent |
+| DEVICEID | 客户端标识 |
+| SPACEINFO | 环境信息 { spaceId, provider } |
+| SOURCE | 调用方式：client/http/timing/server/function |
+| RUNTIME_ENV | 运行环境：local/cloud |
+
 ```js
-let clientIP = originalParam.context.CLIENTIP;     // 客户端 IP
-let platform = originalParam.context.PLATFORM;     // mp-weixin、app-plus 等
-let os = originalParam.context.OS;                 // android、ios
-let appid = originalParam.context.APPID;           // manifest.json 中的 appid
-let deviceId = originalParam.context.DEVICEID;     // 设备标识
-let spaceInfo = originalParam.context.SPACEINFO;   // 云空间信息
+let clientIP = originalParam.context.CLIENTIP;
+let platform = originalParam.context.PLATFORM;
+let os = originalParam.context.OS;
 ```
 
 ### need_user_info 机制
@@ -57,7 +68,6 @@ let spaceInfo = originalParam.context.SPACEINFO;   // 云空间信息
 **kh 目录：** 默认自动获取 userInfo。如果云函数不需要用户信息，前端传 `need_user_info: false` 可减少一次数据库查询（快约 100ms），但 uid 仍然可用（从 token 解密）。
 
 ```js
-// 前端调用（kh 目录，不需要 userInfo 时）
 vk.callFunction({
   url: 'client/order/kh/getList',
   data: {
@@ -70,7 +80,6 @@ vk.callFunction({
 **pub 目录：** 默认不获取 userInfo 也不获取 uid。如需获取，前端传 `need_user_info: true`：
 
 ```js
-// 前端调用（pub 目录，需要 userInfo 时）
 vk.callFunction({
   url: 'client/product/pub/getDetail',
   data: {
@@ -82,7 +91,7 @@ vk.callFunction({
 
 ---
 
-## 云函数模板详解
+## 云函数模板
 
 ### 完整模板（推荐）
 
@@ -134,111 +143,52 @@ module.exports = {
 };
 ```
 
+### 分页查询示例
+
+```js
+main: async (event) => {
+  let { data = {}, util } = event;
+  let { vk, _ } = util;
+  let { uid, pageIndex = 1, pageSize = 10, status } = data;
+  let res = { code: 0, msg: '' };
+
+  let whereJson = { user_id: uid };
+  if (status !== undefined) whereJson.status = status;
+
+  res = await vk.baseDao.select({
+    dbName: 'orders',
+    pageIndex,
+    pageSize,
+    getCount: true,
+    whereJson,
+    sortArr: [{ name: '_add_time', type: 'desc' }],
+  });
+
+  return res;
+};
+```
+
 ---
 
-## 过滤器详细配置
+## 目录约定与权限
 
-过滤器文件放在 `router/middleware/modules/` 下，所有 `.js` 文件自动加载。每个文件导出一个数组：
-
-### 配置结构
-
-```js
-module.exports = [
-  {
-    id: 'myFilter',                     // 全局唯一 ID（相同 ID 会覆盖）
-    regExp: '^client/shop/manage',      // 正则匹配 URL
-    description: '过滤器描述',
-    index: 250,                         // 执行顺序（越小越先执行）
-    mode: 'onActionExecuting',          // 执行模式
-    enable: true,                       // 是否启用
-    main: async function(event) {
-      let { util, data, filterResponse, url } = event;
-      let { vk, db, _ } = util;
-
-      // 拦截: 返回 code 非 0
-      // return { code: -1, msg: '拦截原因' };
-
-      // 放行: 返回 code 0
-      return { code: 0, msg: 'ok' };
-    },
-  },
-];
-```
-
-### 参数说明
-
-| 参数 | 类型 | 说明 |
-|---|---|---|
-| `id` | String | 全局唯一 ID |
-| `regExp` | String/Array | 正则匹配规则。字符串或字符串数组 |
-| `description` | String | 描述 |
-| `index` | Number | 执行顺序（越小越先执行） |
-| `mode` | String | 执行模式（见下表） |
-| `enable` | Boolean | 是否启用 |
-| `main` | Function | 执行函数 |
-| `returnMode` | Number | 返回值模式：0=Object.assign 合并，1=完全替换 |
-
-### 执行模式
-
-| mode | 说明 | 典型场景 |
-|---|---|---|
-| `onActionExecuting` | action 执行前（最常用） | 权限检查、参数验证 |
-| `onActionExecuted` | action 执行后 | 结果转换、日志记录 |
-| `onActionIntercepted` | action 被其他中间件拦截后 | 资源清理 |
-| `onActionError` | action 异常时 | 异常处理、日志 |
-
-### regExp 写法
-
-```js
-// 匹配所有
-regExp: '(.*)'
-
-// 匹配 kh 目录
-regExp: '/kh/'
-
-// 匹配指定模块
-regExp: '^client/shop/manage'
-
-// 精确匹配
-regExp: '^client/order/kh/getList$'
-
-// 多个匹配
-regExp: ['^client/order/kh/add$', '^client/order/kh/update$']
-
-// 匹配范围
-regExp: '^client/(order|product)/(kh|sys)/(.*)'
-```
-
-**重要：** regExp 使用标准正则语法，`*` 是量词（匹配前一字符零次或多次），不是通配符。匹配任意字符用 `(.*)`。
-
-### 框架内置过滤器
-
-| ID | regExp | index | 说明 |
+| 目录 | 访问权限 | userInfo/uid 可用 | 典型场景 |
 |---|---|---|---|
-| pub | `/pub/` | 100 | 放行所有请求 |
-| kh | `/kh/` | 200 | 检测 token，注入 userInfo/uid |
-| sys | `/sys/` | 300 | 检测登录 + 管理员权限 |
-
-自定义过滤器的 `index` 必须根据需要设置：
-- 在 kh 之后执行：index > 200
-- 在 sys 之后执行：index > 300
-
-### 过滤器注入数据
-
-过滤器可以向 `filterResponse` 注入数据，后续云函数通过 `event.filterResponse` 获取：
-
-```js
-// 过滤器中
-filterResponse.shop = shopData;
-
-// 云函数中
-let { filterResponse } = event;
-let shop = filterResponse.shop;
-```
+| `pub/` | 所有人可访问 | 否（除非传 `need_user_info:true`） | 登录、注册、公开数据查询 |
+| `kh/` | 必须登录 | 是（自动注入） | 用户个人操作、订单、收藏等 |
+| `sys/` | 必须登录 + 需管理员权限 | 是（自动注入） | 后台管理、系统设置 |
 
 ---
 
-## Dao 2.0 完整指南
+## 过滤器/中间件
+
+过滤器是 router 级别的请求拦截机制，对云函数和云对象都生效。
+
+> 完整文档参见 [middleware.md](middleware.md)
+
+---
+
+## Dao 2.0 数据访问层
 
 Dao 2.0 通过类继承封装表操作，推荐在正式项目中使用。
 
@@ -259,7 +209,7 @@ module.exports = {
 ### 编写 Dao 类
 
 ```js
-// dao/modules/orderDao.js
+// dao/modules/orderDao.js（文件名必须以 Dao.js 结尾）
 const { BaseDao, Tables } = require('../base.js');
 
 class OrderDao extends BaseDao {
@@ -268,7 +218,6 @@ class OrderDao extends BaseDao {
     this.tableName = Tables.order;
   }
 
-  // 自定义方法（如无特殊需求，可不写，基类方法已足够）
   async getByOrderNo(orderNo) {
     return await this.findByWhereJson({
       whereJson: { order_no: orderNo },
@@ -289,37 +238,25 @@ class OrderDao extends BaseDao {
 module.exports = OrderDao;
 ```
 
-**文件命名规则：** 文件名必须以 `Dao.js` 结尾（如 `orderDao.js`、`userDao.js`）。
-
 ### BaseDao 继承的方法
 
 所有 `vk.baseDao` 的方法都可在 Dao 类中调用（不需要传 `dbName`）：
 
 ```js
-// BaseDao 提供的方法（等同 vk.baseDao，但省去 dbName 参数）
-this.add(dataJson)
-this.adds(dataArray)
-this.findById(id, fieldJson)
-this.findByWhereJson(whereJson, fieldJson)
-this.select(params)
-this.selects(params)
-this.count(whereJson)
-this.updateById(id, dataJson)
+this.add(dataJson)          this.adds(dataArray)
+this.findById(id)           this.findByWhereJson(whereJson)
+this.select(params)         this.selects(params)
+this.count(whereJson)       this.updateById(id, dataJson)
 this.update(whereJson, dataJson)
 this.updateAndReturn(whereJson, dataJson)
-this.deleteById(id)
-this.del(whereJson)
+this.deleteById(id)         this.del(whereJson)
 this.setById(dataJson)
-this.sum({ fieldName, whereJson })
-this.max({ fieldName, whereJson })
-this.min({ fieldName, whereJson })
-this.avg({ fieldName, whereJson })
+this.sum/max/min/avg({ fieldName, whereJson })
 ```
 
 ### 调用方式
 
 ```js
-// 在云函数中调用
 // 简易调用
 let order = await vk.daoCenter.orderDao.findById(orderId);
 
@@ -332,10 +269,21 @@ let order = await vk.daoCenter.orderDao.findById({
 
 // 自定义方法
 let order = await vk.daoCenter.orderDao.getByOrderNo('ORD20240101');
-
-// 分页查询
-let result = await vk.daoCenter.orderDao.getUserOrders(uid, 1, 20);
 ```
+
+---
+
+## 云函数间调用
+
+```js
+// 云函数 A 调用云函数 B
+let res = await vk.callFunction({
+  url: '其他云函数路径',
+  data: { a: 1 },
+});
+```
+
+url 化后参数在 `originalParam.event.body` 中（JSON 字符串），请求头在 `originalParam.event.headers` 中。
 
 ---
 
@@ -346,18 +294,14 @@ let result = await vk.daoCenter.orderDao.getUserOrders(uid, 1, 20);
 ```js
 // 获取常用时间
 let {
-  todayStart,    // 今天开始时间戳
-  todayEnd,      // 今天结束时间戳
-  weekStart,     // 本周开始
-  weekEnd,       // 本周结束
-  monthStart,    // 本月开始
-  monthEnd,      // 本月结束
-  yearStart,     // 本年开始
-  yearEnd,       // 本年结束
+  todayStart, todayEnd,
+  weekStart, weekEnd,
+  monthStart, monthEnd,
+  yearStart, yearEnd,
 } = vk.pubfn.getCommonTime();
 
 // 生成唯一 ID
-let id = vk.pubfn.createOrderNo(); // 订单号
+let id = vk.pubfn.createOrderNo();
 
 // 日期格式化
 let str = vk.pubfn.timeFormat(Date.now(), 'yyyy-MM-dd hh:mm:ss');
@@ -368,7 +312,6 @@ let str = vk.pubfn.timeFormat(Date.now(), 'yyyy-MM-dd hh:mm:ss');
 ```js
 // router/util/pubFunction.js
 module.exports = {
-  // 自定义函数
   async myFunction(vk, params) {
     // ...
   },
@@ -376,3 +319,5 @@ module.exports = {
 ```
 
 在云函数中使用：`pubFun.myFunction(vk, params)`
+
+> 更多 vk.pubfn 工具函数参见 [jsapi.md](jsapi.md)

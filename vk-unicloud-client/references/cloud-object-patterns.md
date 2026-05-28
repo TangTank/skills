@@ -317,6 +317,8 @@ sys 类型函数通常用于 admin 端。框架会通过用户角色权限自动
 
 ## _before 和 _after 拦截器
 
+> 除了云对象内置的 `_before`/`_after`，router 级别的**过滤器/中间件**同样对云对象生效（通过 regExp 匹配 URL）。参见 [middleware.md](middleware.md)
+
 ### _before（预处理）
 
 在调用常规方法之前执行，一般用于拦截器、身份验证、参数校验、定义全局对象。
