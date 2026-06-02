@@ -5,8 +5,8 @@
   "sort_order": 3,
   "tools": {
     "antigravity": true,
-    "claude_code": true,
-    "codex": true,
+    "claude_code": false,
+    "codex": false,
     "workbuddy": true
   }
 }

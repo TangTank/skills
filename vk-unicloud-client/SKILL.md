@@ -1,6 +1,6 @@
 ---
 name: vk-unicloud-client
-description: Use when developing with vk-unicloud-router on uni-app + uniCloud. Triggers: vk-unicloud, cloud function routing, cloudObject, isCloudObject, importObject, vk.baseDao, vk.callFunction, selects/foreignDB, Dao 2.0, _before/_after, kh/pub/sys permissions, vk.userCenter, uniCloud database operations, middleware filters, WeChat mini program server API, app.config.js.
+description: Use when developing with vk-unicloud-router on uni-app + uniCloud, including cloud function routing, cloudObject, vk.baseDao, vk.callFunction, Dao 2.0, permissions, vk.userCenter, database operations, middleware filters, and WeChat mini program server APIs. 
 ---
 
 # vk-unicloud-router 开发规范与 API 参考
@@ -18,6 +18,7 @@ vk-unicloud-router 是基于 uniCloud 的云函数路由模式开发框架，用
 - 微信小程序服务端 API 调用
 
 **不适用：**
+
 - 不使用 vk-unicloud-router 的 uniCloud 项目（直接用原生 API）
 - 纯前端项目（无云函数）
 - admin 管理后台开发（参见 vk-unicloud-admin skill）

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "9bb5a054-0cf6-4d91-9da1-651c1aef6f4e",
+  "path": "wot-ui-v2",
+  "path_key": "wot-ui-v2",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}
