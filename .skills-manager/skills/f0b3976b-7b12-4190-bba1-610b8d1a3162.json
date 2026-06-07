@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "f0b3976b-7b12-4190-bba1-610b8d1a3162",
+  "path": "frontend-design-2",
+  "path_key": "frontend-design-2",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "skillssh",
+    "ref": "wot-ui/wot-starter/frontend-design",
+    "subpath": ".agent\\skills\\frontend-design",
+    "branch": null
+  }
+}
