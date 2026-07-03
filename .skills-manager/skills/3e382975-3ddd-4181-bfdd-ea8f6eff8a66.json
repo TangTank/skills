@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "3e382975-3ddd-4181-bfdd-ea8f6eff8a66",
+  "path": "z-paging",
+  "path_key": "z-paging",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}

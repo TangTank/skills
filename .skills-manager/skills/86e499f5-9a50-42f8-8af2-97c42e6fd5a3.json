@@ -4,7 +4,9 @@
   "path": "unicloud",
   "path_key": "unicloud",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "UniApp"
+  ],
   "source": {
     "type": "local",
     "ref": null,

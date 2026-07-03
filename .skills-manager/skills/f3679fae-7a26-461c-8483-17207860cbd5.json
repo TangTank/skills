@@ -4,7 +4,9 @@
   "path": "python-design-patterns",
   "path_key": "python-design-patterns",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "python"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "wshobson/agents/python-design-patterns",

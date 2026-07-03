@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "63d7424f-56ec-42d0-b217-4824a572c1a7",
+  "path": "huashu-design",
+  "path_key": "huashu-design",
+  "enabled": true,
+  "tags": [
+    "UI设计"
+  ],
+  "source": {
+    "type": "skillssh",
+    "ref": "alchaincyf/huashu-design/huashu-design",
+    "subpath": null,
+    "branch": null
+  }
+}
