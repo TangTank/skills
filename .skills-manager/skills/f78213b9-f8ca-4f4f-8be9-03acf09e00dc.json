@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "f78213b9-f8ca-4f4f-8be9-03acf09e00dc",
+  "path": "caveman",
+  "path_key": "caveman",
+  "enabled": true,
+  "tags": [
+    "核心技能"
+  ],
+  "source": {
+    "type": "skillssh",
+    "ref": "juliusbrussee/caveman/caveman",
+    "subpath": "skills\\caveman",
+    "branch": null
+  }
+}
