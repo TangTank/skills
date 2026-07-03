@@ -4,7 +4,9 @@
   "path": "dataverse-python-usecase-builder",
   "path_key": "dataverse-python-usecase-builder",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "python"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "github/awesome-copilot/dataverse-python-usecase-builder",

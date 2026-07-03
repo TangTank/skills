@@ -4,7 +4,11 @@
   "path": "database-migration",
   "path_key": "database-migration",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "后端开发",
+    "数据库",
+    "研发流程"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "wshobson/agents/database-migration",

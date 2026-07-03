@@ -4,7 +4,11 @@
   "path": "frontend-design-2",
   "path_key": "frontend-design-2",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "UI设计",
+    "UniApp",
+    "前端开发"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "wot-ui/wot-starter/frontend-design",

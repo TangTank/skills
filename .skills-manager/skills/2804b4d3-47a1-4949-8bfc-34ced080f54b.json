@@ -4,7 +4,9 @@
   "path": "nodejs-backend-patterns",
   "path_key": "nodejs-backend-patterns",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "后端开发"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "wshobson/agents/nodejs-backend-patterns",

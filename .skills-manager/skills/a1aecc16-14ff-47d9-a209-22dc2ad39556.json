@@ -4,7 +4,10 @@
   "path": "sql-optimization-patterns",
   "path_key": "sql-optimization-patterns",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "后端开发",
+    "数据库"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "wshobson/agents/sql-optimization-patterns",

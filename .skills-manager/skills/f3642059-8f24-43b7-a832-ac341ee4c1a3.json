@@ -4,7 +4,10 @@
   "path": "python-testing-patterns",
   "path_key": "python-testing-patterns",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "QA",
+    "python"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "wshobson/agents/python-testing-patterns",

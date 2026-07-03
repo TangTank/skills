@@ -4,7 +4,9 @@
   "path": "api-design-principles",
   "path_key": "api-design-principles",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "后端开发"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "wshobson/agents/api-design-principles",

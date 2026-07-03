@@ -4,7 +4,10 @@
   "path": "wot-ui-v2",
   "path_key": "wot-ui-v2",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "UniApp",
+    "前端开发"
+  ],
   "source": {
     "type": "local",
     "ref": null,

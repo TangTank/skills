@@ -4,7 +4,10 @@
   "path": "jackyun",
   "path_key": "jackyun",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "UniApp",
+    "工具链"
+  ],
   "source": {
     "type": "local",
     "ref": null,

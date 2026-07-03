@@ -4,7 +4,10 @@
   "path": "z-paging",
   "path_key": "z-paging",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "UniApp",
+    "前端开发"
+  ],
   "source": {
     "type": "local",
     "ref": null,

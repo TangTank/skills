@@ -4,7 +4,9 @@
   "path": "mcp-builder",
   "path_key": "mcp-builder",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "AI/Agent"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "anthropics/skills/mcp-builder",

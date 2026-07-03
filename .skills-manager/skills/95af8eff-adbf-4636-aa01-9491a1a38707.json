@@ -4,7 +4,9 @@
   "path": "global-feedback",
   "path_key": "global-feedback",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "UniApp"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "wot-ui/wot-starter/global-feedback",

@@ -4,7 +4,10 @@
   "path": "pnpm",
   "path_key": "pnpm",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "前端开发",
+    "工具链"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "antfu/skills/pnpm",

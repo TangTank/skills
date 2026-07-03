@@ -4,7 +4,9 @@
   "path": "dataverse-python-quickstart",
   "path_key": "dataverse-python-quickstart",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "python"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "github/awesome-copilot/dataverse-python-quickstart",

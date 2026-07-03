@@ -4,7 +4,9 @@
   "path": "dataverse-python-production-code",
   "path_key": "dataverse-python-production-code",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "python"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "github/awesome-copilot/dataverse-python-production-code",

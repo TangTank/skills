@@ -4,7 +4,10 @@
   "path": "design-system-patterns",
   "path_key": "design-system-patterns",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "UI设计",
+    "前端开发"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "wshobson/agents/design-system-patterns",

@@ -4,7 +4,10 @@
   "path": "finishing-a-development-branch",
   "path_key": "finishing-a-development-branch",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "Git",
+    "研发流程"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "obra/superpowers/finishing-a-development-branch",

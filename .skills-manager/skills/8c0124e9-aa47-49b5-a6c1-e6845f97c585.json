@@ -4,7 +4,9 @@
   "path": "python-performance-optimization",
   "path_key": "python-performance-optimization",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "python"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "wshobson/agents/python-performance-optimization",

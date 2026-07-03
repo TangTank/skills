@@ -4,7 +4,9 @@
   "path": "rust-async-patterns",
   "path_key": "rust-async-patterns",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "后端开发"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "wshobson/agents/rust-async-patterns",

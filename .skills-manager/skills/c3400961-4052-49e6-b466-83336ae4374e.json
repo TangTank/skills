@@ -4,7 +4,9 @@
   "path": "python-packaging",
   "path_key": "python-packaging",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "python"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "wshobson/agents/python-packaging",

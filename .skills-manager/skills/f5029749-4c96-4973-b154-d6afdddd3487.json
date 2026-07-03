@@ -4,7 +4,10 @@
   "path": "slidev",
   "path_key": "slidev",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "前端开发",
+    "文档制作"
+  ],
   "source": {
     "type": "skillssh",
     "ref": "antfu/skills/slidev",

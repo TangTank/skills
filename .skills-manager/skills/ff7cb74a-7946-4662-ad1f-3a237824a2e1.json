@@ -4,7 +4,10 @@
   "path": "vk-unicloud-client",
   "path_key": "vk-unicloud-client",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "UniApp",
+    "工具链"
+  ],
   "source": {
     "type": "local",
     "ref": null,
