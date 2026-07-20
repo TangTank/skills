@@ -10,7 +10,7 @@
   "source": {
     "type": "skillssh",
     "ref": "wot-ui/wot-starter/starter-cleaner",
-    "subpath": ".agent\\skills\\starter-cleaner",
+    "subpath": ".agents\\skills\\starter-cleaner",
     "branch": null
   }
 }

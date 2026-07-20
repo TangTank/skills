@@ -1,37 +1,43 @@
 ---
 name: starter-cleaner
-description: 清理 wot-starter 模板，移除示例页面、文档和 monorepo 配置，创建一个最简基础模板。
+description: 将 wot-starter v2 模板精简为最小可开发状态，移除文档、演示分包、生成文件和 monorepo 配置，并同步清理相关 Vite 与 package.json 配置。用户要求“清理模板”“移除示例”“生成最小模板”“精简 wot-starter v2”时使用。
 ---
 
-# Starter Cleaner Skill
+# Starter Cleaner
 
-该技能用于将 `wot-starter` 模板精简至最小状态，适合用于启动不包含示例代码的新项目。
+使用随技能提供的确定性脚本清理 `wot-starter` v2，保留基础页面、Wot UI、`uni-echarts` 和 `echarts` 能力。
 
-## 功能说明
+## 执行流程
 
-1.  **目录清理**:
-    *   移除 `docs/`: 文档目录。
-    *   移除 `src/subPages/`: 示例分包页面。
-    *   移除 `src/subEcharts/`: Echarts 示例。
-    *   移除 `src/subAsyncEcharts/`: 异步 Echarts 示例。
-    *   移除 `src/pages.json`: 项目页面配置文件（由 `pages.config.ts` 生成）。
-    *   移除 `pnpm-workspace.yaml`: Monorepo 配置文件。
+1. 在项目根目录运行 `git status --short`，确认并告知用户未提交改动会被保留，但待清理目录中的改动会随目录一起删除。
+2. 如果用户尚未明确要求执行清理，先说明这是破坏性操作并取得确认。
+3. 先预览清理计划：
 
-2.  **配置清理**:
-    *   **vite.config.ts**:
-        *   移除 `UniHelperPages` 相关分包配置 (`subEcharts`, `subAsyncEcharts` 等)。
-        *   **注意**：保留 `uni-echarts` 相关配置。
-    *   **package.json**:
-        *   移除 `docs:` 相关脚本 (`docs:dev`, `docs:build`, `docs:preview`)。
-        *   **注意**：保留 `uni-echarts` 和 `echarts` 依赖。
+   ```sh
+   node .agents/skills/starter-cleaner/scripts/clean.js --dry-run
+   ```
 
-## 使用方法
+4. 确认目标是 `wot-starter` v2 后执行。脚本会删除旧的 `src/pages.json`，然后受控运行 `pnpm dev:h5`，等新的最小 `src/pages.json` 生成后退出 dev server：
 
-要执行清理过程，请使用 `run_command` 工具运行提供的 node 脚本。
+   ```sh
+   node .agents/skills/starter-cleaner/scripts/clean.js
+   ```
 
-```zsh
-node .agent/skills/starter-cleaner/scripts/clean.js
-```
+5. 执行 `pnpm install --lockfile-only` 更新锁文件，再运行 `pnpm type-check` 和 `pnpm lint`。如果依赖不可用，至少检查 `git diff --check` 和清理后的 diff，并将未运行的验证明确告知用户。
 
-> [!WARNING]
-> 该技能执行**破坏性**操作。它将永久删除文件和目录。运行前请确保相关工作已提交。
+## 清理范围
+
+脚本执行以下操作，且支持重复运行：
+
+- 删除 `docs/`、`src/subPages/`、`src/subEcharts/`、`src/subAsyncEcharts/`。
+- 删除旧的 `src/pages.json`，再通过 `pnpm dev:h5` 触发 `vite-plugin-uni-pages` 重新生成最小页面配置。
+- 删除 `pnpm-workspace.yaml`，将项目从文档 workspace 恢复为单包项目。
+- 从 `vite.config.ts` 的 `UniHelperPages` 配置中移除上述三个示例分包入口。
+- 从 `package.json` 中移除 `docs:*` 与 `lint:docs` 脚本。
+- 保留 `uni-echarts`、`echarts` 依赖和相关 Vite 配置，方便业务继续使用图表。
+
+## 安全约束
+
+- 不直接拼接或扩展删除路径；仅使用脚本内的固定清单。
+- 不在非 `wot-starter` v2 项目中运行。仅在用户明确确认目标项目后使用 `--force` 跳过项目身份检查。
+- 不用 `--force` 绕过未提交改动提示；该参数只用于项目身份检查。
