@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "06416979-d53f-44ed-9d79-dafd1fb3672e",
+  "path": "to-tickets",
+  "path_key": "to-tickets",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "skillssh",
+    "ref": "mattpocock/skills/to-tickets",
+    "subpath": "skills\\engineering\\to-tickets",
+    "branch": null
+  }
+}
