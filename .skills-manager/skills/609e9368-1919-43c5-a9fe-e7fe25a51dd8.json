@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "609e9368-1919-43c5-a9fe-e7fe25a51dd8",
+  "path": "prototype",
+  "path_key": "prototype",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "skillssh",
+    "ref": "mattpocock/skills/prototype",
+    "subpath": "skills\\engineering\\prototype",
+    "branch": null
+  }
+}
