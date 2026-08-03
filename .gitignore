@@ -4,3 +4,7 @@ Thumbs.db
 .skills-manager.lock
 /.idea/
 .skills-manager-plus.lock
+
+# skills-manager: oversized skills excluded from backup (auto-managed)
+/my-agent-flow/
+# skills-manager: end oversized skills
