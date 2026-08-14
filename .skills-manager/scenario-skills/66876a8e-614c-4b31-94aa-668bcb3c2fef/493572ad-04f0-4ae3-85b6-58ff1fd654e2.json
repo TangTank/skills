@@ -7,6 +7,7 @@
     "claude_code": true,
     "codex": true,
     "mimocode": true,
+    "openclaw": true,
     "qoder": true
   }
 }
