@@ -5,6 +5,9 @@ Thumbs.db
 /.idea/
 .skills-manager-plus.lock
 
+__pycache__/
+*.pyc
+
 # skills-manager: oversized skills excluded from backup (auto-managed)
 /my-agent-flow/
 # skills-manager: end oversized skills
