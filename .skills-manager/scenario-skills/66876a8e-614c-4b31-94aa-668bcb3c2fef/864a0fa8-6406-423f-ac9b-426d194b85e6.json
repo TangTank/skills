@@ -9,6 +9,7 @@
     "deepseek_harness": true,
     "mimocode": true,
     "openclaw": true,
+    "pi": true,
     "qoder": true
   }
 }
