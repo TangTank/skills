@@ -1,0 +1,3 @@
+interface:
+  display_name: "MiMo TTS 2.5 语音生成"
+  short_description: "用 MiMo TTS 2.5 生成词句 MP3，支持压缩选项、音色与语速切换"
