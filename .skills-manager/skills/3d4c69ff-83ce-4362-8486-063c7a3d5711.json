@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "3d4c69ff-83ce-4362-8486-063c7a3d5711",
+  "path": "watermark-camera",
+  "path_key": "watermark-camera",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "f2bceea8-6889-4c27-83aa-9aece1d53eed",
+  "path": "openspec-apply-change",
+  "path_key": "openspec-apply-change",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}

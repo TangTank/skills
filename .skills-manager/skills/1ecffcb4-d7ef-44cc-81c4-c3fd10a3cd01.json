@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "1ecffcb4-d7ef-44cc-81c4-c3fd10a3cd01",
+  "path": "openspec-archive-change",
+  "path_key": "openspec-archive-change",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}
