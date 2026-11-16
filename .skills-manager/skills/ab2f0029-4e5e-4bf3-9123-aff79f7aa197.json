@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "ab2f0029-4e5e-4bf3-9123-aff79f7aa197",
+  "path": "product-ui-design-review",
+  "path_key": "product-ui-design-review",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}
